@@ -1,18 +1,23 @@
-import { Context, APIGatewayEvent, APIGatewayProxyResult } from "aws-lambda";
+import {
+  // Context,
+  // APIGatewayEvent,
+  APIGatewayProxyResult,
+} from "aws-lambda";
+import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import { v4 as uuid } from "uuid";
 import validator from "@middy/validator";
+import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
 import { CreateTourPostRequest, Tour } from "../types/tour";
 import { createTourSchema } from "src/lib/schemas/createTourSchema";
 
+const dynamodb = new DocumentClient();
+
 async function createTour(
-  event: CreateTourPostRequest,
-  context: Context
+  event: CreateTourPostRequest
 ): Promise<APIGatewayProxyResult> {
   const { title, startAt } = event.body;
-  // eslint-disable-line
-  console.log(event.body);
   const now = new Date();
 
   const tour: Tour = {
@@ -23,13 +28,20 @@ async function createTour(
     startAt,
   };
 
-  // // eslint-disable-line
-  // console.log(tour);
-
-  return {
-    statusCode: 201,
-    body: JSON.stringify(tour),
-  };
+  try {
+    const params = {
+      TableName: process.env.TOUR_SERVICE_TABLE_NAME,
+      Item: tour,
+    };
+    await dynamodb.put(params).promise();
+    return {
+      statusCode: 201,
+      body: JSON.stringify({ tour }),
+    };
+  } catch (error) {
+    console.error(error);
+    throw new createError.InternalServerError(error);
+  }
 }
 
 export const handler = commonMiddleware(createTour).use(

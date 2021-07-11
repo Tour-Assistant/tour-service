@@ -14,9 +14,10 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
-  region: ap-south-1
+  region: ${self:custom.Region}
   environment:
     TOUR_SERVICE_TABLE_NAME: ${self:custom.TourServiceTable.name}
+    REGION: ${self:custom.Region}
   iamRoleStatements:
     - ${file(iam/TourServiceTableIAM.yml):TourServiceTableIAM}
   # To load environment variables externally
@@ -40,6 +41,7 @@ resources:
     TourServiceTable: ${file(resources/TourServiceTable.yml):TourServiceTable}
 
 custom:
+  Region: ap-south-1
   TourServiceTable:
     name: !Ref TourServiceTable
     arn: !GetAtt TourServiceTable.Arn
