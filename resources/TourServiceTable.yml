@@ -1,0 +1,24 @@
+TourServiceTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: TourServiceTable-${self:provider.stage}
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      - AttributeName: eventStatus
+        AttributeType: S
+      - AttributeName: startAt
+        AttributeType: S
+    KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+    GlobalSecondaryIndexes:
+      - IndexName: eventStatus_startAt_index
+        KeySchema:
+          - AttributeName: eventStatus
+            KeyType: HASH
+          - AttributeName: startAt
+            KeyType: RANGE
+        Projection:
+          ProjectionType: ALL

@@ -1,0 +1,5 @@
+TourAssistantMailQueueIAM:
+  Effect: Allow
+  Action:
+    - sqs:SendMessage
+  Resource: ${self:custom.TourAssistantMailQueue.arn}

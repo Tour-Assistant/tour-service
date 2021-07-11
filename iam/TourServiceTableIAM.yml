@@ -1,0 +1,18 @@
+TourServiceTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+  Resource:
+    - ${self:custom.TourServiceTable.arn}
+    - !Join [
+        "/",
+        [
+          "${self:custom.TourServiceTable.arn}",
+          "index",
+          "eventStatus_startAt_index",
+        ],
+      ]
