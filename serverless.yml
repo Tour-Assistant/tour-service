@@ -47,6 +47,10 @@ functions:
       - http:
           method: GET
           path: /tour/{id}
+  processTourExpiring:
+    handler: src/handlers/processTourExpiring.handler
+    events:
+      - schedule: rate(30 days)
 
 resources:
   Resources:
