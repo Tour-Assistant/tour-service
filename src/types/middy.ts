@@ -5,4 +5,7 @@ export interface MiddyRequest {
   queryStringParameters: {
     eventStatus: EVENT_STATUS;
   };
+  pathParameters: {
+    id: string;
+  };
 }

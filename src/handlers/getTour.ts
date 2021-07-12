@@ -1,55 +1,43 @@
-import {
-  // Context,
-  // APIGatewayEvent,
-  APIGatewayProxyResult,
-} from "aws-lambda";
+import { APIGatewayProxyResult } from "aws-lambda";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
-import { v4 as uuid } from "uuid";
-import validator from "@middy/validator";
 import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
-import { CreateTourPostRequest, Tour } from "../types/tour";
-import { createTourSchema } from "src/lib/schemas/createTourSchema";
+import { MiddyRequest } from "src/types/middy";
+import { Tour } from "src/types/tour";
 
 const dynamodb = new DocumentClient();
 
-async function createTour(
-  event: CreateTourPostRequest
-): Promise<APIGatewayProxyResult> {
-  const { title, startAt } = event.body;
-  const now = new Date();
-
-  const tour: Tour = {
-    id: uuid(),
-    title,
-    eventStatus: "UPCOMING",
-    createdAt: now.toISOString(),
-    startAt,
+export const getTourById = async (id: string): Promise<Tour> => {
+  const params = {
+    TableName: process.env.TOUR_SERVICE_TABLE_NAME,
+    Key: { id },
   };
 
+  let tour;
+
   try {
-    const params = {
-      TableName: process.env.TOUR_SERVICE_TABLE_NAME,
-      Item: tour,
-    };
-    await dynamodb.put(params).promise();
-    return {
-      statusCode: 201,
-      body: JSON.stringify({ tour }),
-    };
+    const { Item } = await dynamodb.get(params).promise();
+    tour = Item as Tour;
+    if (tour) {
+      return tour;
+    }
   } catch (error) {
     console.error(error);
     throw new createError.InternalServerError(error);
   }
+  if (!tour) {
+    throw new createError.NotFound(`Tour with id "${id}" not found!`);
+  }
+};
+
+async function getTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
+  const { id } = event.pathParameters;
+  const tour = await getTourById(id);
+  return {
+    statusCode: 201,
+    body: JSON.stringify(tour),
+  };
 }
 
-export const handler = commonMiddleware(createTour).use(
-  validator({
-    inputSchema: createTourSchema,
-    ajvOptions: {
-      useDefaults: true,
-      strict: false,
-    },
-  })
-);
+export const handler = commonMiddleware(getTour);

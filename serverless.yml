@@ -41,6 +41,12 @@ functions:
       - http:
           method: GET
           path: /tours
+  getTour:
+    handler: src/handlers/getTour.handler
+    events:
+      - http:
+          method: GET
+          path: /tour/{id}
 
 resources:
   Resources:
