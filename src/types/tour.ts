@@ -1,7 +1,9 @@
+export type EVENT_STATUS = "UPCOMING" | "CLOSED";
+
 export interface Tour {
   id: string;
   title: string;
-  eventStatus: "UPCOMING" | "CLOSED";
+  eventStatus: EVENT_STATUS;
   startAt: string;
   createdAt: string;
 }

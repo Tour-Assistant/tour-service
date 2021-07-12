@@ -9,13 +9,14 @@ import validator from "@middy/validator";
 import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
-import { Tour } from "../types/tour";
+import { CreateTourPostRequest, Tour } from "../types/tour";
 import { createTourSchema } from "src/lib/schemas/createTourSchema";
-import { MiddyRequest } from "src/types/middy";
 
 const dynamodb = new DocumentClient();
 
-async function createTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
+async function createTour(
+  event: CreateTourPostRequest
+): Promise<APIGatewayProxyResult> {
   const { title, startAt } = event.body;
   const now = new Date();
 
