@@ -9,6 +9,7 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-pseudo-parameters
 
 provider:
   name: aws
@@ -35,18 +36,21 @@ functions:
       - http:
           method: POST
           path: /tour
+          authorizer: ${self:custom.authorizer}
   getTours:
     handler: src/handlers/getTours.handler
     events:
       - http:
           method: GET
           path: /tours
+          authorizer: ${self:custom.authorizer}
   getTour:
     handler: src/handlers/getTour.handler
     events:
       - http:
           method: GET
           path: /tour/{id}
+          authorizer: ${self:custom.authorizer}
   processTourExpiring:
     handler: src/handlers/processTourExpiring.handler
     events:
@@ -57,6 +61,7 @@ resources:
     TourServiceTable: ${file(resources/TourServiceTable.yml):TourServiceTable}
 
 custom:
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:tour-assistant-auth-service-${self:provider.stage}-auth
   Region: ap-south-1
   TourServiceTable:
     name: !Ref TourServiceTable
