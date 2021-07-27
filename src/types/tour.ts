@@ -1,6 +1,6 @@
 export type EVENT_STATUS = "UPCOMING" | "CLOSED";
 
-interface PLACE {
+export interface PLACE {
   name: string;
   alternativeNames?: [string];
   postCode: number;
@@ -9,6 +9,11 @@ interface PLACE {
   district?: string;
   division?: string;
   country?: string;
+}
+
+export interface BUDGET {
+  total: number;
+  advance: number;
 }
 
 export interface HOST_AUTHORITY {
@@ -28,11 +33,20 @@ export interface HOSTED_BY {
 export interface Tour {
   id: string;
   title: string;
+  reference: string;
   eventStatus: EVENT_STATUS;
   startAt: string;
   createdAt: string;
   hostedBy?: HOST_AUTHORITY;
   places: [PLACE];
+  budget: BUDGET;
+  details?: {
+    content: string;
+  };
+  metaData?: {
+    hostedBy: string;
+    budget: number;
+  };
 }
 
 export interface CreateTourPostRequest {
