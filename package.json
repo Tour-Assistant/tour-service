@@ -4,7 +4,11 @@
   "description": "A TypeScript starter for Serverless Framework",
   "main": "handler.js",
   "scripts": {
-    "test": "serverless-bundle test"
+    "api:deploy:dev": "sls deploy -v",
+    "api:deploy:dev:debug": "SLS_DEBUG=* sls deploy -v",
+    "api:deploy:prod": "sls deploy --stage prod -v",
+    "api:deploy:prod:debug": "SLS_DEBUG=* sls deploy --stage prod -v",
+    "stack:remove:i_Know_what_i_am_doing": "sls remove -v"
   },
   "author": "",
   "license": "MIT",

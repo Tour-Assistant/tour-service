@@ -36,6 +36,7 @@ functions:
       - http:
           method: POST
           path: /tour
+          cors: true
           authorizer: ${self:custom.authorizer}
   getTours:
     handler: src/handlers/getTours.handler
@@ -43,6 +44,7 @@ functions:
       - http:
           method: GET
           path: /tours
+          cors: true
           authorizer: ${self:custom.authorizer}
   getTour:
     handler: src/handlers/getTour.handler
@@ -50,6 +52,7 @@ functions:
       - http:
           method: GET
           path: /tour/{id}
+          cors: true
           authorizer: ${self:custom.authorizer}
   processTourExpiring:
     handler: src/handlers/processTourExpiring.handler
