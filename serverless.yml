@@ -30,13 +30,21 @@ provider:
   #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
 
 functions:
+  bulkTourInsert:
+    handler: src/handlers/bulkTourInsert.handler
+    events:
+      - http:
+          method: POST
+          path: /bulk-tour-insert
+          # cors: true
+          authorizer: ${self:custom.authorizer}
   createTour:
     handler: src/handlers/createTour.handler
     events:
       - http:
           method: POST
           path: /tour
-          cors: true
+          # cors: true
           authorizer: ${self:custom.authorizer}
   getTours:
     handler: src/handlers/getTours.handler

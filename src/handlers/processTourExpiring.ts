@@ -5,7 +5,7 @@ import { Tour } from "src/types/tour";
 
 const dynamodb = new DocumentClient();
 
-async function processTourExpiring() {
+async function processTourExpiring(): Promise<void> {
   const now = new Date();
   try {
     // get a list of expired tour

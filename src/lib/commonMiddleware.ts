@@ -10,7 +10,8 @@ export interface OwnEvent {
   };
 }
 
-export default (handler) =>
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+export default (handler): middy.MiddyfiedHandler<any, any, Error> =>
   middy(handler).use([
     httpJsonBodyParser(),
     httpEventNormalizer(),

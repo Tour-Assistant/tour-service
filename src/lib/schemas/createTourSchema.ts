@@ -1,15 +1,9 @@
+import { tourSchema } from "./tourSchema";
+
 const createTourSchema = {
   type: "object",
   properties: {
-    body: {
-      type: "object",
-      properties: {
-        title: {
-          type: "string",
-        },
-      },
-      required: ["title"],
-    },
+    body: tourSchema,
   },
   required: ["body"],
 };

@@ -9,26 +9,27 @@ import validator from "@middy/validator";
 import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
-import { createTourSchema } from "src/lib/schemas/createTourSchema";
+import { Tour } from "../types/tour";
 import { MiddyRequest } from "src/types/middy";
+import bulkTourSchema from "src/lib/schemas/bulkTourSchema";
 import { formatTourData } from "src/lib/formatTourData";
 
 const dynamodb = new DocumentClient();
 
-async function createTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
-  const { title, startAt, reference } = event.body;
-
-  const tour = formatTourData({ title, startAt, reference });
-
+async function bulkTourInsert(
+  event: MiddyRequest
+): Promise<APIGatewayProxyResult> {
+  const tourDataList = event.body;
+  const tourList = event.body.map;
   try {
-    const params = {
-      TableName: process.env.TOUR_SERVICE_TABLE_NAME,
-      Item: tour,
-    };
-    await dynamodb.put(params).promise();
+    // const params = {
+    //   TableName: process.env.TOUR_SERVICE_TABLE_NAME,
+    //   Item: tour,
+    // };
+    // await dynamodb.put(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour }),
+      body: JSON.stringify({ body: event.body }),
     };
   } catch (error) {
     console.error(error);
@@ -36,9 +37,9 @@ async function createTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
   }
 }
 
-export const handler = commonMiddleware(createTour).use(
+export const handler = commonMiddleware(bulkTourInsert).use(
   validator({
-    inputSchema: createTourSchema,
+    inputSchema: bulkTourSchema,
     ajvOptions: {
       useDefaults: true,
       strict: false,
