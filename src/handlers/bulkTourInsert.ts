@@ -1,16 +1,10 @@
-import {
-  // Context,
-  // APIGatewayEvent,
-  APIGatewayProxyResult,
-} from "aws-lambda";
+import { APIGatewayProxyResult } from "aws-lambda";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
-import { v4 as uuid } from "uuid";
 import validator from "@middy/validator";
 import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
 import { Tour } from "../types/tour";
-import { MiddyRequest } from "src/types/middy";
 import bulkTourSchema from "src/lib/schemas/bulkTourSchema";
 import { formatTourData } from "src/lib/formatTourData";
 
@@ -19,9 +13,8 @@ const dynamodb = new DocumentClient();
 async function bulkTourInsert(event: {
   body: Partial<Tour>[];
 }): Promise<APIGatewayProxyResult> {
-  const tourDataList = event.body;
-  const tourList = event.body.map(({ title, startAt, reference }) =>
-    formatTourData({ title, startAt, reference })
+  const tourList = event.body.map(({ title, startAt, reference, metaData }) =>
+    formatTourData({ title, startAt, reference, metaData })
   );
   try {
     const params = {

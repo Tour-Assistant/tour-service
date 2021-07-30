@@ -6,8 +6,9 @@ export const formatTourData = (tourData: {
   title: string;
   startAt: string;
   reference: string;
+  metaData: Tour["metaData"];
 }): Tour => {
-  const { title, startAt, reference } = tourData;
+  const { title, startAt, reference, metaData } = tourData;
   const currentTime = new Date().toISOString();
   return {
     id: uuid(),
@@ -16,5 +17,6 @@ export const formatTourData = (tourData: {
     reference,
     eventStatus: currentTime < startAt ? "UPCOMING" : "CLOSED",
     createdAt: currentTime,
+    metaData,
   };
 };

@@ -1,10 +1,5 @@
-import {
-  // Context,
-  // APIGatewayEvent,
-  APIGatewayProxyResult,
-} from "aws-lambda";
+import { APIGatewayProxyResult } from "aws-lambda";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
-import { v4 as uuid } from "uuid";
 import validator from "@middy/validator";
 import createError from "http-errors";
 
@@ -16,9 +11,9 @@ import { formatTourData } from "src/lib/formatTourData";
 const dynamodb = new DocumentClient();
 
 async function createTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
-  const { title, startAt, reference } = event.body;
+  const { title, startAt, reference, metaData } = event.body;
 
-  const tour = formatTourData({ title, startAt, reference });
+  const tour = formatTourData({ title, startAt, reference, metaData });
 
   try {
     const params = {
