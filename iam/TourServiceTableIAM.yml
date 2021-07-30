@@ -6,6 +6,7 @@ TourServiceTableIAM:
     - dynamodb:GetItem
     - dynamodb:UpdateItem
     - dynamodb:Query
+    - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.TourServiceTable.arn}
     - !Join [

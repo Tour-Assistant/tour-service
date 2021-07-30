@@ -16,20 +16,27 @@ import { formatTourData } from "src/lib/formatTourData";
 
 const dynamodb = new DocumentClient();
 
-async function bulkTourInsert(
-  event: MiddyRequest
-): Promise<APIGatewayProxyResult> {
+async function bulkTourInsert(event: {
+  body: Partial<Tour>[];
+}): Promise<APIGatewayProxyResult> {
   const tourDataList = event.body;
-  const tourList = event.body.map;
+  const tourList = event.body.map(({ title, startAt, reference }) =>
+    formatTourData({ title, startAt, reference })
+  );
   try {
-    // const params = {
-    //   TableName: process.env.TOUR_SERVICE_TABLE_NAME,
-    //   Item: tour,
-    // };
-    // await dynamodb.put(params).promise();
+    const params = {
+      RequestItems: {
+        [process.env.TOUR_SERVICE_TABLE_NAME]: tourList.map((tour) => ({
+          PutRequest: {
+            Item: tour,
+          },
+        })),
+      },
+    };
+    await dynamodb.batchWrite(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ body: event.body }),
+      body: JSON.stringify({ tourList }),
     };
   } catch (error) {
     console.error(error);

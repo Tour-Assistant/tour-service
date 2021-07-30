@@ -36,7 +36,7 @@ functions:
       - http:
           method: POST
           path: /bulk-tour-insert
-          # cors: true
+          cors: true
           authorizer: ${self:custom.authorizer}
   createTour:
     handler: src/handlers/createTour.handler
@@ -44,7 +44,7 @@ functions:
       - http:
           method: POST
           path: /tour
-          # cors: true
+          cors: true
           authorizer: ${self:custom.authorizer}
   getTours:
     handler: src/handlers/getTours.handler
