@@ -4,14 +4,14 @@ import validator from "@middy/validator";
 import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
-import { Tour } from "../types/tour";
+import { ITour } from "../types/tour";
 import bulkTourSchema from "src/lib/schemas/bulkTourSchema";
 import { formatTourData } from "src/lib/formatTourData";
 
 const dynamodb = new DocumentClient();
 
 async function bulkTourInsert(event: {
-  body: Partial<Tour>[];
+  body: Partial<ITour>[];
 }): Promise<APIGatewayProxyResult> {
   const tourList = event.body.map(({ title, startAt, reference, metaData }) =>
     formatTourData({ title, startAt, reference, metaData })

@@ -1,7 +1,7 @@
-import { EVENT_STATUS, Tour } from "./tour";
+import { EVENT_STATUS, ITour } from "./tour";
 
 export interface MiddyRequest {
-  body: Partial<Tour>;
+  body: Partial<ITour>;
   queryStringParameters: {
     eventStatus: EVENT_STATUS;
   };
