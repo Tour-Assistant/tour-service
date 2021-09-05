@@ -1,7 +1,7 @@
 import createError from "http-errors";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
 
-import { ITour } from "src/types/tour";
+import { Tour } from "src/types/tour";
 
 const dynamodb = new DocumentClient();
 
@@ -19,7 +19,7 @@ async function processTourExpiring(): Promise<void> {
       },
     };
     const { Items } = await dynamodb.query(params).promise();
-    const expiredTours = Items as ITour[];
+    const expiredTours = Items as Tour[];
 
     // Make all expired tours as closed
     const expiredToursPromises = expiredTours.map(async (tour) => {

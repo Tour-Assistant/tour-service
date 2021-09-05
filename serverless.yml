@@ -62,6 +62,14 @@ functions:
           path: /tour/{id}
           cors: true
           authorizer: ${self:custom.authorizer}
+  updateTour:
+    handler: src/handlers/updateTour.handler
+    events:
+      - http:
+          method: PATCH
+          path: /tour/{id}
+          cors: true
+          authorizer: ${self:custom.authorizer}
   processTourExpiring:
     handler: src/handlers/processTourExpiring.handler
     events:

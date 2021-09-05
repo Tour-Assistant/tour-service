@@ -4,11 +4,11 @@ import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
 import { MiddyRequest } from "src/types/middy";
-import { ITour } from "src/types/tour";
+import { Tour } from "src/types/tour";
 
 const dynamodb = new DocumentClient();
 
-export const getTourById = async (id: string): Promise<ITour> => {
+export const getTourById = async (id: string): Promise<Tour> => {
   const params = {
     TableName: process.env.TOUR_SERVICE_TABLE_NAME,
     Key: { id },
@@ -18,7 +18,7 @@ export const getTourById = async (id: string): Promise<ITour> => {
 
   try {
     const { Item } = await dynamodb.get(params).promise();
-    tour = Item as ITour;
+    tour = Item as Tour;
     if (tour) {
       return tour;
     }
@@ -27,7 +27,7 @@ export const getTourById = async (id: string): Promise<ITour> => {
     throw new createError.InternalServerError(error);
   }
   if (!tour) {
-    throw new createError.NotFound(`ITour with id "${id}" not found!`);
+    throw new createError.NotFound(`Tour with id "${id}" not found!`);
   }
 };
 

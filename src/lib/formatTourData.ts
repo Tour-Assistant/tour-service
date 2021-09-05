@@ -1,13 +1,13 @@
 import { v4 as uuid } from "uuid";
 
-import { ITour } from "src/types/tour";
+import { Tour } from "src/types/tour";
 
 export const formatTourData = (tourData: {
   title: string;
   startAt: string;
   reference: string;
-  metaData: ITour["metaData"];
-}): ITour => {
+  metaData: Tour["metaData"];
+}): Tour => {
   const { title, startAt, reference, metaData } = tourData;
   const currentTime = new Date().toISOString();
   return {

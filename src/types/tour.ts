@@ -1,6 +1,6 @@
 export type EVENT_STATUS = "UPCOMING" | "CLOSED";
 
-export interface IPlace {
+export interface Place {
   name: string;
   alternativeNames?: string[];
   postCode: number;
@@ -11,35 +11,35 @@ export interface IPlace {
   country?: string;
 }
 
-export interface IBudget {
+export interface Budget {
   total: number;
   advance: number;
 }
 
-export interface IHostAuthority {
+export interface HostAuthority {
   name: string;
   phone: string;
 }
 
-export interface IHostedBy {
+export interface HostedBy {
   name: string;
   link: {
     page: string;
     group: string;
   };
-  authority: IHostAuthority[];
+  authority: HostAuthority[];
 }
 
-export interface ITour {
+export interface Tour {
   id: string;
   title: string;
   reference: string; // should be mandatory
   eventStatus: EVENT_STATUS;
   startAt: string;
   createdAt: string;
-  hostedBy?: IHostedBy;
-  places?: IPlace[]; // should be mandatory
-  budget?: IBudget; // should be mandatory
+  hostedBy?: HostedBy;
+  places?: Place[]; // should be mandatory
+  budget?: Budget; // should be mandatory
   details?: {
     content: string;
   };
@@ -49,7 +49,7 @@ export interface ITour {
   };
 }
 
-export interface ICreateTourPostRequest {
+export interface CreateTourPostRequest {
   body: {
     title: string;
     startAt: string;
