@@ -5,6 +5,7 @@ TourServiceTableIAM:
     - dynamodb:Scan
     - dynamodb:GetItem
     - dynamodb:UpdateItem
+    - dynamodb:DeleteItem
     - dynamodb:Query
     - dynamodb:BatchWriteItem
   Resource:

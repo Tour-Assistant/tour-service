@@ -70,6 +70,14 @@ functions:
           path: /tour/{id}
           cors: true
           authorizer: ${self:custom.authorizer}
+  deleteTour:
+    handler: src/handlers/deleteTour.handler
+    events:
+      - http:
+          method: DELETE
+          path: /tour/{id}
+          cors: true
+          authorizer: ${self:custom.authorizer}
   processTourExpiring:
     handler: src/handlers/processTourExpiring.handler
     events:
