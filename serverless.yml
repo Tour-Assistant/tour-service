@@ -53,7 +53,7 @@ functions:
           method: GET
           path: /tours
           cors: true
-          authorizer: ${self:custom.authorizer}
+          # authorizer: ${self:custom.authorizer}
   getTour:
     handler: src/handlers/getTour.handler
     events:
