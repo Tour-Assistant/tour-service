@@ -22,6 +22,7 @@
     "@types/jest": "^26.0.14",
     "@types/uuid": "^8.3.1",
     "serverless-bundle": "3.2.1",
+    "serverless-domain-manager": "^5.1.5",
     "serverless-dotenv-plugin": "^3.0.0",
     "serverless-offline": "^8.0.0"
   },
