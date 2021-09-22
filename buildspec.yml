@@ -8,6 +8,8 @@ phases:
   pre_build:
     commands:
       - echo installing npm dependencies
+      - echo node version
+      - node -v
       - npm install
   build:
     commands:
