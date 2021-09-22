@@ -66,6 +66,10 @@ Install the npm packages
 $ npm install
 ```
 
+### Update Config
+
+Update the region from `serverless.yml` file.
+
 ### Usage
 
 To run a function on your local
