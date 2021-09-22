@@ -10,12 +10,13 @@ phases:
       - echo installing npm dependencies
       - echo node version
       - node -v
-      - npm install
+      - npm i -g yarn
+      - yarn
   build:
     commands:
       - echo deployment started on `date`
       - echo deploying with serverless framework
-      - serverless deploy -v -s dev
+      - yarn api:deploy:dev:debug
   post_build:
     commands:
       - echo deployment completed on `date`
