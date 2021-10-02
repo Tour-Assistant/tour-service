@@ -94,8 +94,11 @@ custom:
   TourServiceTable:
     name: !Ref TourServiceTable
     arn: !GetAtt TourServiceTable.Arn
+  domain:
+    dev: tour-api-dev.my-tour-assistant.com
+    prod: tour-api.my-tour-assistant.com
   customDomain:
-    domainName: tour-api.my-tour-assistant.com
+    domainName: ${self:custom.domain.${opt:stage, 'dev'}}
     basePath: "v1"
     stage: ${self:provider.stage}
     certificateName: my-tour-assistant.com
