@@ -8,7 +8,8 @@
     "api:deploy:dev:debug": "SLS_DEBUG=* sls deploy -v",
     "api:deploy:prod": "sls deploy --stage prod -v",
     "api:deploy:prod:debug": "SLS_DEBUG=* sls deploy --stage prod -v",
-    "stack:remove:i_Know_what_i_am_doing": "sls remove -v"
+    "stack:remove:i_Know_what_i_am_doing": "sls remove -v",
+    "test": "jest --watch"
   },
   "author": "",
   "license": "MIT",
@@ -16,23 +17,28 @@
     "type": "git",
     "url": "https://github.com/AnomalyInnovations/serverless-typescript-starter.git"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.34.0",
+    "jest": "^27.2.4",
+    "jest-dynalite": "^3.4.4",
+    "ts-jest": "^27.0.5"
+  },
   "dependencies": {
     "@aws-sdk/types": "^3.20.0",
-    "@types/aws-lambda": "^8.10.64",
-    "@types/jest": "^26.0.14",
-    "@types/uuid": "^8.3.1",
-    "serverless-bundle": "3.2.1",
-    "serverless-domain-manager": "^5.1.5",
-    "serverless-dotenv-plugin": "^3.0.0",
-    "serverless-offline": "^8.0.0",
     "@middy/core": "^2.4.3",
     "@middy/http-cors": "^2.4.3",
     "@middy/http-error-handler": "^2.4.3",
     "@middy/http-event-normalizer": "^2.4.3",
     "@middy/http-json-body-parser": "^2.4.3",
     "@middy/validator": "^2.4.3",
+    "@types/aws-lambda": "^8.10.64",
+    "@types/jest": "^27.0.2",
+    "@types/uuid": "^8.3.1",
     "http-errors": "^1.8.0",
+    "serverless-bundle": "3.2.1",
+    "serverless-domain-manager": "^5.1.5",
+    "serverless-dotenv-plugin": "^3.0.0",
+    "serverless-offline": "^8.0.0",
     "serverless-pseudo-parameters": "^2.5.0",
     "uuid": "^8.3.2"
   }
