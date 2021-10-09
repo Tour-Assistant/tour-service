@@ -1,17 +1,17 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import createError from "http-errors";
 
+import { dynamodb, TableName } from "src/lib/dbClient";
 import commonMiddleware from "src/lib/commonMiddleware";
 import { MiddyRequest } from "src/types/middy";
 
-const dynamodb = new DocumentClient();
-
-async function getTours(event: MiddyRequest): Promise<APIGatewayProxyResult> {
-  const { eventStatus = "UPCOMING" } = event.queryStringParameters;
+export async function getTours(
+  event: MiddyRequest
+): Promise<APIGatewayProxyResult> {
+  const { eventStatus = "UPCOMING" } = event?.queryStringParameters || {};
 
   const params = {
-    TableName: process.env.TOUR_SERVICE_TABLE_NAME,
+    TableName,
     KeyConditionExpression: "eventStatus = :eventStatus",
     IndexName: "eventStatus_startAt_index",
     ExpressionAttributeValues: {

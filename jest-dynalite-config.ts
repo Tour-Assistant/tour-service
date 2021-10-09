@@ -18,7 +18,21 @@ module.exports = {
     {
       TableName: "TestTourService",
       KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
-      AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
+      AttributeDefinitions: [
+        { AttributeName: "id", AttributeType: "S" },
+        { AttributeName: "eventStatus", AttributeType: "S" },
+        { AttributeName: "startAt", AttributeType: "S" },
+      ],
+      GlobalSecondaryIndexes: [
+        {
+          IndexName: "eventStatus_startAt_index",
+          KeySchema: [
+            { AttributeName: "eventStatus", KeyType: "HASH" },
+            { AttributeName: "startAt", KeyType: "RANGE" },
+          ],
+          Projection: { ProjectionType: "ALL" },
+        },
+      ],
       ProvisionedThroughput: {
         ReadCapacityUnits: 1,
         WriteCapacityUnits: 1,
