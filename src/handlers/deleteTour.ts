@@ -1,16 +1,16 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import createError from "http-errors";
 
 import commonMiddleware from "src/lib/commonMiddleware";
 import { MiddyRequest } from "src/types/middy";
+import { TableName, dynamodb } from "src/lib/dbClient";
 
-const dynamodb = new DocumentClient();
-
-async function deleteTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
+export async function deleteTour(
+  event: MiddyRequest
+): Promise<APIGatewayProxyResult> {
   const { id } = event.pathParameters;
   const params = {
-    TableName: process.env.TOUR_SERVICE_TABLE_NAME,
+    TableName,
     Key: { id },
   };
   try {
