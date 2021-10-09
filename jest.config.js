@@ -1,12 +1,14 @@
 module.exports = {
   preset: "jest-dynalite",
   verbose: true,
-  roots: ["tests"],
-  testMatch: [
-    "**/__tests__/**/*.+(ts|tsx|js)",
-    "**/?(*.)+(spec|test).+(ts|tsx|js)",
-  ],
+  moduleDirectories: ["node_modules", "src"],
+  moduleFileExtensions: ["js", "json", "ts"],
+  roots: ["src"],
+  testRegex: ".test.ts$",
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(t|j)s$": "ts-jest",
+  },
+  moduleNameMapper: {
+    "src/(.*)": "<rootDir>/src/$1",
   },
 };
