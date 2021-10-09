@@ -1,7 +1,8 @@
+import moment from "moment";
+
 import { MiddyRequest } from "src/types/middy";
 import { Tour } from "src/types/tour";
 import { createTour } from "src/handlers/createTour";
-import moment from "moment";
 
 describe("can create tour", () => {
   let tourData: Partial<Tour>;

@@ -1,6 +1,5 @@
 import { v4 as uuid } from "uuid";
 import moment from "moment";
-import createError from "http-errors";
 
 import { Tour } from "src/types/tour";
 import { getTourById } from "src/handlers/getTour";

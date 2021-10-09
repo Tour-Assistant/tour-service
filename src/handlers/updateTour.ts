@@ -1,5 +1,4 @@
 import { APIGatewayProxyResult } from "aws-lambda";
-import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import validator from "@middy/validator";
 import createError from "http-errors";
 
@@ -7,10 +6,11 @@ import commonMiddleware from "src/lib/commonMiddleware";
 import { createTourSchema } from "src/lib/schemas/createTourSchema";
 import { MiddyRequest } from "src/types/middy";
 import { formatTourData } from "src/lib/formatTourData";
+import { dynamodb, TableName } from "src/lib/dbClient";
 
-const dynamodb = new DocumentClient();
-
-async function updateTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
+export async function updateTour(
+  event: MiddyRequest
+): Promise<APIGatewayProxyResult> {
   const { id } = event.pathParameters;
   const { title, startAt, reference, metaData } = event.body;
 
@@ -18,17 +18,19 @@ async function updateTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
 
   try {
     const params = {
-      TableName: process.env.TOUR_SERVICE_TABLE_NAME,
+      TableName,
       Key: { id },
       ExpressionAttributeNames: {
         "#r": "reference",
       },
       UpdateExpression:
-        "SET title = :title, startAt = :startAt, #r = :r, metaData = :metaData",
+        "SET title = :title, startAt = :startAt, #r = :r, metaData = :metaData, eventStatus = :eventStatus",
       ExpressionAttributeValues: {
         ":title": title,
         ":startAt": startAt,
         ":r": reference,
+        ":eventStatus":
+          new Date().toISOString() < startAt ? "UPCOMING" : "CLOSED",
         ":metaData": metaData,
       },
       ReturnValues: "ALL_NEW",
