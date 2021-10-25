@@ -21,6 +21,7 @@
     "@aws-sdk/client-dynamodb": "^3.34.0",
     "jest": "^27.2.4",
     "jest-dynalite": "^3.4.4",
+    "serverless-export-env": "^2.0.0",
     "ts-jest": "^27.0.5"
   },
   "dependencies": {

@@ -1,38 +1,38 @@
-import { v4 as uuid } from "uuid";
-import moment from "moment";
+import { v4 as uuid } from 'uuid';
+import moment from 'moment';
 
-import { Tour } from "src/types/tour";
-import { deleteTour } from "src/handlers/deleteTour";
-import { dynamodb, TableName } from "src/lib/dbClient";
-import { MiddyRequest } from "src/types/middy";
+import { Tour } from 'src/types/tour';
+import { deleteTour } from 'src/handlers/deleteTour';
+import { dynamodb, TableName } from 'src/lib/dbClient';
+import { MiddyRequest } from 'src/types/middy';
 
-describe("should delete tour", () => {
-  let id = uuid();
+describe('should delete tour', () => {
+  const id = uuid();
   const tourData: Partial<Tour> = {
     id,
-    title: "title 1",
+    title: 'title 1',
     startAt: moment().toISOString(),
-    reference: "https://google.com",
+    reference: 'https://google.com',
     metaData: {
-      hostedBy: "Hit The Trail",
-      budget: 1223,
+      hostedBy: 'Hit The Trail',
+      budget: 1223
     },
-    createdAt: moment().toISOString(),
+    createdAt: moment().toISOString()
   };
   beforeEach(async () => {
     await dynamodb
       .put({
         TableName,
-        Item: tourData,
+        Item: tourData
       })
       .promise();
   });
 
-  it("should delete the tour", async () => {
+  it('should delete the tour', async () => {
     const event: MiddyRequest = {
       pathParameters: {
-        id,
-      },
+        id
+      }
     };
     await deleteTour(event);
     const { Item: tour } = await dynamodb
@@ -41,12 +41,12 @@ describe("should delete tour", () => {
     expect(tour).toEqual(undefined);
   });
 
-  it("should delete the tour", async () => {
+  it('should delete the tour', async () => {
     const randomId = uuid();
     const event: MiddyRequest = {
       pathParameters: {
-        id: uuid(),
-      },
+        id: uuid()
+      }
     };
     try {
       await deleteTour(event);
