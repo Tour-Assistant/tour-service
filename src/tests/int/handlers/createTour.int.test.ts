@@ -1,11 +1,11 @@
 import moment from 'moment';
 import _ from 'lodash';
+import { APIGatewayEvent, Context } from 'aws-lambda';
 
-import { MiddyRequest } from 'src/types/middy';
 import { Tour } from 'src/types/tour';
-import { createTour } from 'src/handlers/createTour';
+import { handler as createTourHandler } from 'src/handlers/createTour';
 
-describe('can create tour', () => {
+describe('can create tour by handler suite', () => {
   let tourData: Partial<Tour>;
   it('create an upcoming tour', async () => {
     tourData = {
@@ -35,10 +35,12 @@ describe('can create tour', () => {
       places: ['p1', 'p2'],
       description: 'Some description'
     };
-    const event: MiddyRequest = {
+
+    const event = {
       body: tourData
-    };
-    const res = await createTour(event);
+    } as unknown as APIGatewayEvent;
+    const context = {} as Context;
+    const res = await createTourHandler(event, context);
     const { tour: newTour } = JSON.parse(res.body);
     expect(_.omit(newTour, 'id', 'createdAt')).toEqual(
       _.assignIn(tourData, { eventStatus: 'UPCOMING' })
@@ -73,10 +75,12 @@ describe('can create tour', () => {
       places: ['p1', 'p2'],
       description: 'Some description'
     };
-    const event: MiddyRequest = {
+    const event = {
       body: tourData
-    };
-    const res = await createTour(event);
+    } as unknown as APIGatewayEvent;
+    const context = {} as Context;
+
+    const res = await createTourHandler(event, context);
     const { tour: newTour } = JSON.parse(res.body);
     expect(_.omit(newTour, 'id', 'createdAt')).toEqual(
       _.assignIn(tourData, { eventStatus: 'CLOSED' })

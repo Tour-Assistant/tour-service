@@ -13,10 +13,6 @@ describe('should delete tour', () => {
     title: 'title 1',
     startAt: moment().toISOString(),
     reference: 'https://google.com',
-    metaData: {
-      hostedBy: 'Hit The Trail',
-      budget: 1223
-    },
     createdAt: moment().toISOString()
   };
   beforeEach(async () => {

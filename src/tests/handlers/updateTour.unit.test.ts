@@ -1,24 +1,43 @@
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { MiddyRequest } from 'src/types/middy';
 import { Tour } from 'src/types/tour';
 import { updateTour } from 'src/handlers/updateTour';
 import { dynamodb, TableName } from 'src/lib/dbClient';
 
-describe('can create tour', () => {
+describe('can update tour suite', () => {
   const id = uuid();
   const tourData: Partial<Tour> = {
     id,
     title: 'title 1',
-    startAt: moment().subtract(1, 'day').toISOString(),
     reference: 'https://google.com',
-    metaData: {
-      hostedBy: 'Hit The Trail',
-      budget: 1223
+    startAt: moment().subtract(1, 'day').toISOString(),
+    budget: 5000,
+    division: 'Dhaka',
+    district: 'Dhaka D',
+    hostedBy: {
+      name: 'Hit The Trail',
+      link: {
+        page: 'https://facebook.com/page/hitthetrail',
+        group: 'https://facebook.com/group/hitthetrail'
+      },
+      authorities: [
+        {
+          name: 'Masum',
+          phone: '+8801711253253'
+        },
+        {
+          name: 'Mamun',
+          phone: '+8801722253253'
+        }
+      ]
     },
-    createdAt: moment().toISOString()
+    places: ['p1', 'p2'],
+    description: 'Some description'
   };
+
   beforeEach(async () => {
     await dynamodb
       .put({
@@ -29,21 +48,18 @@ describe('can create tour', () => {
   });
 
   it('should update the tour', async () => {
-    const startAt = moment().subtract(1, 'day').toISOString();
+    const updatedTour = {
+      ...tourData,
+      title: 'Updated title',
+      startAt: moment().add(2, 'days').toISOString(),
+      reference: 'https://linkedin.com'
+    };
 
     const event: MiddyRequest = {
       pathParameters: {
         id
       },
-      body: {
-        title: 'Updated title',
-        startAt: moment().add(1, 'day').toISOString(),
-        reference: 'https://linkedin.com',
-        metaData: {
-          hostedBy: 'TGB',
-          budget: 350
-        }
-      }
+      body: updatedTour
     };
     const res = await updateTour(event);
     expect(res.statusCode).toEqual(201);
@@ -52,8 +68,8 @@ describe('can create tour', () => {
       .promise();
     expect(tour.title).toEqual('Updated title');
     expect(tour.eventStatus).toEqual('UPCOMING');
-    expect(tour.reference).toEqual('https://linkedin.com');
-    expect(tour.metaData.hostedBy).toEqual('TGB');
-    expect(tour.metaData.budget).toEqual(350);
+    expect(_.omit(tour, 'createdAt')).toEqual(
+      _.assignIn(updatedTour, { eventStatus: 'UPCOMING' })
+    );
   });
 });

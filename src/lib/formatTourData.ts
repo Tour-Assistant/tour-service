@@ -1,22 +1,23 @@
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
 
-import { Tour } from "src/types/tour";
+import { HostedBy, Tour } from 'src/types/tour';
 
 export const formatTourData = (tourData: {
   title: string;
-  startAt: string;
   reference: string;
-  metaData: Tour["metaData"];
-}): Tour => {
-  const { title, startAt, reference, metaData } = tourData;
+  startAt: string;
+  budget: number;
+  division: string;
+  district: string;
+  hostedBy: HostedBy;
+  places: string[];
+  description: string;
+}): Partial<Tour> => {
   const currentTime = new Date().toISOString();
   return {
+    ...tourData,
     id: uuid(),
-    title,
-    startAt,
-    reference,
-    eventStatus: currentTime < startAt ? "UPCOMING" : "CLOSED",
-    createdAt: currentTime,
-    metaData,
+    eventStatus: currentTime < tourData.startAt ? 'UPCOMING' : 'CLOSED',
+    createdAt: currentTime
   };
 };

@@ -1,15 +1,4 @@
-export type EVENT_STATUS = "UPCOMING" | "CLOSED";
-
-export interface Place {
-  name: string;
-  alternativeNames?: string[];
-  postCode: number;
-  area?: string;
-  thana?: string;
-  district?: string;
-  division?: string;
-  country?: string;
-}
+export type EVENT_STATUS = 'UPCOMING' | 'CLOSED';
 
 export interface Budget {
   total: number;
@@ -27,26 +16,22 @@ export interface HostedBy {
     page: string;
     group: string;
   };
-  authority: HostAuthority[];
+  authorities: HostAuthority[];
 }
 
 export interface Tour {
   id: string;
   title: string;
-  reference: string; // should be mandatory
+  reference: string;
   eventStatus: EVENT_STATUS;
   startAt: string;
+  division: string;
+  district: string;
+  hostedBy: HostedBy;
+  places: string[];
+  budget: number;
+  description: string;
   createdAt: string;
-  hostedBy?: HostedBy;
-  places?: Place[]; // should be mandatory
-  budget?: Budget; // should be mandatory
-  details?: {
-    content: string;
-  };
-  metaData?: {
-    hostedBy: string;
-    budget: number;
-  };
 }
 
 export interface CreateTourPostRequest {
