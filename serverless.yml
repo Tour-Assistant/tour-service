@@ -75,7 +75,7 @@ functions:
   processTourExpiring:
     handler: src/handlers/processTourExpiring.handler
     events:
-      - schedule: rate(30 days)
+      - schedule: rate(12 hours)
 
 resources:
   Resources:
