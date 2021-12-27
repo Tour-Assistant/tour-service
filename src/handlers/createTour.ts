@@ -12,8 +12,6 @@ import { dynamodb, TableName } from 'src/lib/dbClient';
 export async function createTour(
   event: MiddyRequest
 ): Promise<APIGatewayProxyResult> {
-  const { title, startAt, reference } = event.body;
-
   const tour = formatTourData(
     _.pick(
       event.body,
@@ -26,18 +24,18 @@ export async function createTour(
       'hostedBy',
       'places',
       'description'
-    )
+    ) as any
   );
 
   try {
     const params = {
       TableName,
-      Item: tour
+      Item: tour,
     };
     await dynamodb.put(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour })
+      body: JSON.stringify({ tour }),
     };
   } catch (error) {
     console.error(error);
@@ -50,7 +48,7 @@ export const handler = commonMiddleware(createTour).use(
     inputSchema: createTourSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false
-    }
+      strict: false,
+    },
   })
 );
