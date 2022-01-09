@@ -8,6 +8,7 @@ import { createTourSchema } from 'src/lib/schemas/createTourSchema';
 import { MiddyRequest } from 'src/types/middy';
 import { formatTourData } from 'src/lib/formatTourData';
 import { dynamodb, TableName } from 'src/lib/dbClient';
+import { Tour } from 'src/types/tour';
 
 export async function updateTour(
   event: MiddyRequest
@@ -24,7 +25,7 @@ export async function updateTour(
       'hostedBy',
       'places',
       'description'
-    ) as any
+    ) as Tour
   );
 
   const {
