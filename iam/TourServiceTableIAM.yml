@@ -11,10 +11,11 @@ TourServiceTableIAM:
   Resource:
     - ${self:custom.TourServiceTable.arn}
     - !Join [
-        "/",
+        '/',
         [
-          "${self:custom.TourServiceTable.arn}",
-          "index",
-          "eventStatus_startAt_index",
-        ],
+          '${self:custom.TourServiceTable.arn}',
+          'index',
+          'eventStatus_startAt_index',
+          'fbIdentifier_index'
+        ]
       ]

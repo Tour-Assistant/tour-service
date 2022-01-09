@@ -19,6 +19,7 @@ export async function updateTour(
     _.pick(
       event.body,
       'title',
+      'fbIdentifier',
       'reference',
       'startAt',
       'budget',

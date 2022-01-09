@@ -10,6 +10,8 @@ TourServiceTable:
         AttributeType: S
       - AttributeName: startAt
         AttributeType: S
+      - AttributeName: fbIdentifier
+        AttributeType: S
     KeySchema:
       - AttributeName: id
         KeyType: HASH
@@ -20,5 +22,11 @@ TourServiceTable:
             KeyType: HASH
           - AttributeName: startAt
             KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+      - IndexName: fbIdentifier_index
+        KeySchema:
+          - AttributeName: fbIdentifier
+            KeyType: HASH
         Projection:
           ProjectionType: ALL

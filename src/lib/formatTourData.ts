@@ -4,6 +4,7 @@ import { HostedBy, Tour } from 'src/types/tour';
 
 export const formatTourData = (tourData: {
   title: string;
+  fbIdentifier: string;
   reference: string;
   startAt: string;
   budget: number;

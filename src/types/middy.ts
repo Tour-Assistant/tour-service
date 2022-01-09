@@ -1,4 +1,4 @@
-import { EVENT_STATUS, Tour } from "./tour";
+import { EVENT_STATUS, Tour } from './tour';
 
 export interface MiddyRequest {
   body?: Partial<Tour>;
@@ -6,6 +6,7 @@ export interface MiddyRequest {
     eventStatus: EVENT_STATUS;
   };
   pathParameters?: {
-    id: string;
+    id?: string;
+    fbIdentifier?: string;
   };
 }

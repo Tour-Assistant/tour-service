@@ -17,6 +17,7 @@ export async function createTour(
     _.pick(
       event.body,
       'title',
+      'fbIdentifier',
       'reference',
       'startAt',
       'budget',

@@ -21,6 +21,7 @@ export interface HostedBy {
 
 export interface Tour {
   id: string;
+  fbIdentifier: string;
   title: string;
   reference: string;
   eventStatus: EVENT_STATUS;

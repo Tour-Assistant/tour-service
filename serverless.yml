@@ -56,6 +56,14 @@ functions:
           path: /tour/{id}
           cors: true
           authorizer: ${self:custom.authorizer}
+  getTourByFbIdentifier:
+    handler: src/handlers/getTourByFbIdentifier.handler
+    events:
+      - http:
+          method: GET
+          path: /tour/fb-identifier/{fbIdentifier}
+          cors: true
+          authorizer: ${self:custom.authorizer}
   updateTour:
     handler: src/handlers/updateTour.handler
     events:
