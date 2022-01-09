@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { Tour } from 'src/types/tour';
 import { getTours } from 'src/handlers/getTours';
-import { dynamodb, TableName } from 'src/lib/dbClient';
+import { dynamodb } from 'src/lib/dbClient';
 import { MiddyRequest } from 'src/types/middy';
 
 describe('should able to get list of tours', () => {

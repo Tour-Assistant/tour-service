@@ -10,9 +10,40 @@ import { formatTourData } from 'src/lib/formatTourData';
 import { dynamodb, TableName } from 'src/lib/dbClient';
 import { Tour } from 'src/types/tour';
 
+export async function isDuplicateByFbIdentifier(
+  fbIdentifier
+): Promise<boolean> {
+  const params = {
+    TableName,
+    KeyConditionExpression: 'fbIdentifier = :fbIdentifier',
+    IndexName: 'fbIdentifier_index',
+    ExpressionAttributeValues: {
+      ':fbIdentifier': fbIdentifier
+    }
+  };
+  try {
+    const { Items } = await dynamodb.query(params).promise();
+    return !!_.size(Items);
+  } catch (error) {
+    throw new createError.InternalServerError(error);
+  }
+}
+
 export async function createTour(
   event: MiddyRequest
 ): Promise<APIGatewayProxyResult> {
+  // determine if already event exist with same event id
+  if (event?.body?.fbIdentifier) {
+    const isDuplicate = await isDuplicateByFbIdentifier(
+      event.body.fbIdentifier
+    );
+    if (isDuplicate) {
+      throw new createError.InternalServerError(
+        `An event with fbIdentifier ${event.body.fbIdentifier} already exists.`
+      );
+    }
+  }
+
   const tour = formatTourData(
     _.pick(
       event.body,
