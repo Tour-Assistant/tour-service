@@ -21,8 +21,6 @@ export async function updateTour(
       'reference',
       'startAt',
       'budget',
-      'division',
-      'district',
       'hostedBy',
       'places',
       'description'
@@ -35,11 +33,9 @@ export async function updateTour(
     startAt,
     eventStatus,
     budget,
-    division,
-    district,
     hostedBy,
     places,
-    description,
+    description
   } = tour;
 
   try {
@@ -47,7 +43,7 @@ export async function updateTour(
       TableName,
       Key: { id },
       ExpressionAttributeNames: {
-        '#r': 'reference',
+        '#r': 'reference'
       },
       UpdateExpression: `
         SET
@@ -56,8 +52,6 @@ export async function updateTour(
           startAt = :startAt,
           budget = :budget,
           eventStatus = :eventStatus,
-          division = :division,
-          district = :district,
           hostedBy = :hostedBy,
           places = :places,
           description = :description`,
@@ -67,21 +61,18 @@ export async function updateTour(
         ':startAt': startAt,
         ':eventStatus': eventStatus,
         ':budget': budget,
-        ':division': division,
-        ':district': district,
         ':hostedBy': hostedBy,
         ':places': places,
-        ':description': description,
+        ':description': description
       },
-      ReturnValues: 'ALL_NEW',
+      ReturnValues: 'ALL_NEW'
     };
     await dynamodb.update(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour }),
+      body: JSON.stringify({ tour })
     };
   } catch (error) {
-    console.error(error);
     throw new createError.InternalServerError(error);
   }
 }
@@ -91,7 +82,7 @@ export const handler = commonMiddleware(updateTour).use(
     inputSchema: createTourSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false,
-    },
+      strict: false
+    }
   })
 );

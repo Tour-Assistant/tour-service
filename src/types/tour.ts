@@ -25,8 +25,6 @@ export interface Tour {
   reference: string;
   eventStatus: EVENT_STATUS;
   startAt: string;
-  division: string;
-  district: string;
   hostedBy: HostedBy;
   places: string[];
   budget: number;

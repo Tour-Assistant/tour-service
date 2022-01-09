@@ -1,15 +1,15 @@
-import { APIGatewayProxyResult } from "aws-lambda";
-import createError from "http-errors";
+import { APIGatewayProxyResult } from 'aws-lambda';
+import createError from 'http-errors';
 
-import commonMiddleware from "src/lib/commonMiddleware";
-import { MiddyRequest } from "src/types/middy";
-import { Tour } from "src/types/tour";
-import { dynamodb, TableName } from "src/lib/dbClient";
+import commonMiddleware from 'src/lib/commonMiddleware';
+import { MiddyRequest } from 'src/types/middy';
+import { Tour } from 'src/types/tour';
+import { dynamodb, TableName } from 'src/lib/dbClient';
 
 export const getTourById = async (id: string): Promise<Tour> => {
   const params = {
     TableName,
-    Key: { id },
+    Key: { id }
   };
 
   let tour;
@@ -22,7 +22,6 @@ export const getTourById = async (id: string): Promise<Tour> => {
     }
     return tour;
   } catch (error) {
-    console.error(error);
     throw new createError.InternalServerError(error);
   }
 };
@@ -32,7 +31,7 @@ async function getTour(event: MiddyRequest): Promise<APIGatewayProxyResult> {
   const tour = await getTourById(id);
   return {
     statusCode: 201,
-    body: JSON.stringify(tour),
+    body: JSON.stringify(tour)
   };
 }
 

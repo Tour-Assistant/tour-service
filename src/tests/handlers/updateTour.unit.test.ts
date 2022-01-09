@@ -15,8 +15,6 @@ describe('can update tour suite', () => {
     reference: 'https://google.com',
     startAt: moment().subtract(1, 'day').toISOString(),
     budget: 5000,
-    division: 'Dhaka',
-    district: 'Dhaka D',
     hostedBy: {
       name: 'Hit The Trail',
       link: {

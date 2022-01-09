@@ -13,8 +13,6 @@ describe('can create tour', () => {
       reference: 'https://google.com',
       startAt: moment().add(1, 'day').toISOString(),
       budget: 5000,
-      division: 'Dhaka',
-      district: 'Dhaka D',
       hostedBy: {
         name: 'Hit The Trail',
         link: {
@@ -51,8 +49,6 @@ describe('can create tour', () => {
       reference: 'https://google.com',
       startAt: moment().subtract(1, 'day').toISOString(),
       budget: 5000,
-      division: 'Dhaka',
-      district: 'Dhaka D',
       hostedBy: {
         name: 'Hit The Trail',
         link: {

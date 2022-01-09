@@ -19,8 +19,6 @@ export async function createTour(
       'reference',
       'startAt',
       'budget',
-      'division',
-      'district',
       'hostedBy',
       'places',
       'description'
@@ -30,15 +28,14 @@ export async function createTour(
   try {
     const params = {
       TableName,
-      Item: tour,
+      Item: tour
     };
     await dynamodb.put(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour }),
+      body: JSON.stringify({ tour })
     };
   } catch (error) {
-    console.error(error);
     throw new createError.InternalServerError(error);
   }
 }
@@ -48,7 +45,7 @@ export const handler = commonMiddleware(createTour).use(
     inputSchema: createTourSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false,
-    },
+      strict: false
+    }
   })
 );

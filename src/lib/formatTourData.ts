@@ -7,8 +7,6 @@ export const formatTourData = (tourData: {
   reference: string;
   startAt: string;
   budget: number;
-  division: string;
-  district: string;
   hostedBy: HostedBy;
   places: string[];
   description: string;

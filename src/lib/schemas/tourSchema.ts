@@ -13,12 +13,6 @@ export const tourSchema = {
     budget: {
       type: 'number'
     },
-    division: {
-      type: 'string'
-    },
-    district: {
-      type: 'string'
-    },
     hostedBy: {
       type: 'object',
       properties: {
