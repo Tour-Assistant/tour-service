@@ -7,6 +7,9 @@ export const tourSchema = {
     reference: {
       type: 'string'
     },
+    fbIdentifier: {
+      type: 'string'
+    },
     startAt: {
       type: 'string'
     },
