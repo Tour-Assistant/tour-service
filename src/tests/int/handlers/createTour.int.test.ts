@@ -10,6 +10,7 @@ describe('can create tour by handler suite', () => {
   it('create an upcoming tour', async () => {
     tourData = {
       title: 'title 1',
+      curatedTitle: 'curatedTitle 1',
       reference: 'https://google.com',
       startAt: moment().add(1, 'day').toISOString(),
       budget: 5000,
@@ -17,25 +18,25 @@ describe('can create tour by handler suite', () => {
         name: 'Hit The Trail',
         link: {
           page: 'https://facebook.com/page/hitthetrail',
-          group: 'https://facebook.com/group/hitthetrail'
+          group: 'https://facebook.com/group/hitthetrail',
         },
         authorities: [
           {
             name: 'Masum',
-            phone: '+8801711253253'
+            phone: '+8801711253253',
           },
           {
             name: 'Mamun',
-            phone: '+8801722253253'
-          }
-        ]
+            phone: '+8801722253253',
+          },
+        ],
       },
       places: ['p1', 'p2'],
-      description: 'Some description'
+      description: 'Some description',
     };
 
     const event = {
-      body: tourData
+      body: tourData,
     } as unknown as APIGatewayEvent;
     const context = {} as Context;
     const res = await createTourHandler(event, context);
@@ -48,6 +49,7 @@ describe('can create tour by handler suite', () => {
   it('create an closed tour', async () => {
     tourData = {
       title: 'title 1',
+      curatedTitle: 'curatedTitle 1',
       reference: 'https://google.com',
       startAt: moment().subtract(1, 'day').toISOString(),
       budget: 5000,
@@ -55,24 +57,24 @@ describe('can create tour by handler suite', () => {
         name: 'Hit The Trail',
         link: {
           page: 'https://facebook.com/page/hitthetrail',
-          group: 'https://facebook.com/group/hitthetrail'
+          group: 'https://facebook.com/group/hitthetrail',
         },
         authorities: [
           {
             name: 'Masum',
-            phone: '+8801711253253'
+            phone: '+8801711253253',
           },
           {
             name: 'Mamun',
-            phone: '+8801722253253'
-          }
-        ]
+            phone: '+8801722253253',
+          },
+        ],
       },
       places: ['p1', 'p2'],
-      description: 'Some description'
+      description: 'Some description',
     };
     const event = {
-      body: tourData
+      body: tourData,
     } as unknown as APIGatewayEvent;
     const context = {} as Context;
 

@@ -15,10 +15,11 @@ describe('can create tour', () => {
       id: uuid(),
       fbIdentifier: '123',
       title: 'title 1',
+      curatedTitle: 'curated Title 1',
       startAt: moment().add(1, 'day').toISOString(),
       reference: 'https://google.com',
       eventStatus: 'UPCOMING',
-      createdAt: moment().toISOString()
+      createdAt: moment().toISOString(),
     };
     beforeEach(async () => {
       await dynamodb
@@ -27,11 +28,11 @@ describe('can create tour', () => {
             TestTourService: [
               {
                 PutRequest: {
-                  Item: duplicateTourData
-                }
-              }
-            ]
-          }
+                  Item: duplicateTourData,
+                },
+              },
+            ],
+          },
         })
         .promise();
     });
@@ -50,6 +51,7 @@ describe('can create tour', () => {
   it('create an upcoming tour', async () => {
     tourData = {
       title: 'title 1',
+      curatedTitle: 'curatedTitle 1',
       reference: 'https://google.com',
       startAt: moment().add(1, 'day').toISOString(),
       budget: 5000,
@@ -57,24 +59,24 @@ describe('can create tour', () => {
         name: 'Hit The Trail',
         link: {
           page: 'https://facebook.com/page/hitthetrail',
-          group: 'https://facebook.com/group/hitthetrail'
+          group: 'https://facebook.com/group/hitthetrail',
         },
         authorities: [
           {
             name: 'Masum',
-            phone: '+8801711253253'
+            phone: '+8801711253253',
           },
           {
             name: 'Mamun',
-            phone: '+8801722253253'
-          }
-        ]
+            phone: '+8801722253253',
+          },
+        ],
       },
       places: ['p1', 'p2'],
-      description: 'Some description'
+      description: 'Some description',
     };
     const event: MiddyRequest = {
-      body: tourData
+      body: tourData,
     };
     const res = await createTour(event);
     const { tour: newTour } = JSON.parse(res.body);
@@ -86,6 +88,7 @@ describe('can create tour', () => {
   it('create an closed tour', async () => {
     tourData = {
       title: 'title 1',
+      curatedTitle: 'curatedTitle 1',
       reference: 'https://google.com',
       startAt: moment().subtract(1, 'day').toISOString(),
       budget: 5000,
@@ -93,24 +96,24 @@ describe('can create tour', () => {
         name: 'Hit The Trail',
         link: {
           page: 'https://facebook.com/page/hitthetrail',
-          group: 'https://facebook.com/group/hitthetrail'
+          group: 'https://facebook.com/group/hitthetrail',
         },
         authorities: [
           {
             name: 'Masum',
-            phone: '+8801711253253'
+            phone: '+8801711253253',
           },
           {
             name: 'Mamun',
-            phone: '+8801722253253'
-          }
-        ]
+            phone: '+8801722253253',
+          },
+        ],
       },
       places: ['p1', 'p2'],
-      description: 'Some description'
+      description: 'Some description',
     };
     const event: MiddyRequest = {
-      body: tourData
+      body: tourData,
     };
     const res = await createTour(event);
     const { tour: newTour } = JSON.parse(res.body);

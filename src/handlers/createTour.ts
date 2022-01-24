@@ -18,8 +18,8 @@ export async function isDuplicateByFbIdentifier(
     KeyConditionExpression: 'fbIdentifier = :fbIdentifier',
     IndexName: 'fbIdentifier_index',
     ExpressionAttributeValues: {
-      ':fbIdentifier': fbIdentifier
-    }
+      ':fbIdentifier': fbIdentifier,
+    },
   };
   try {
     const { Items } = await dynamodb.query(params).promise();
@@ -49,6 +49,7 @@ export async function createTour(
       event.body,
       'title',
       'fbIdentifier',
+      'curatedTitle',
       'reference',
       'startAt',
       'budget',
@@ -61,12 +62,12 @@ export async function createTour(
   try {
     const params = {
       TableName,
-      Item: tour
+      Item: tour,
     };
     await dynamodb.put(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour })
+      body: JSON.stringify({ tour }),
     };
   } catch (error) {
     throw new createError.InternalServerError(error);
@@ -78,7 +79,7 @@ export const handler = commonMiddleware(createTour).use(
     inputSchema: createTourSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false
-    }
+      strict: false,
+    },
   })
 );

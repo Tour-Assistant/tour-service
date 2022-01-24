@@ -20,6 +20,7 @@ export async function updateTour(
       event.body,
       'title',
       'fbIdentifier',
+      'curatedTitle',
       'reference',
       'startAt',
       'budget',
@@ -37,7 +38,7 @@ export async function updateTour(
     budget,
     hostedBy,
     places,
-    description
+    description,
   } = tour;
 
   try {
@@ -45,7 +46,7 @@ export async function updateTour(
       TableName,
       Key: { id },
       ExpressionAttributeNames: {
-        '#r': 'reference'
+        '#r': 'reference',
       },
       UpdateExpression: `
         SET
@@ -65,14 +66,14 @@ export async function updateTour(
         ':budget': budget,
         ':hostedBy': hostedBy,
         ':places': places,
-        ':description': description
+        ':description': description,
       },
-      ReturnValues: 'ALL_NEW'
+      ReturnValues: 'ALL_NEW',
     };
     await dynamodb.update(params).promise();
     return {
       statusCode: 201,
-      body: JSON.stringify({ tour })
+      body: JSON.stringify({ tour }),
     };
   } catch (error) {
     throw new createError.InternalServerError(error);
@@ -84,7 +85,7 @@ export const handler = commonMiddleware(updateTour).use(
     inputSchema: createTourSchema,
     ajvOptions: {
       useDefaults: true,
-      strict: false
-    }
+      strict: false,
+    },
   })
 );

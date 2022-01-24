@@ -23,6 +23,7 @@ export interface Tour {
   id: string;
   fbIdentifier: string;
   title: string;
+  curatedTitle: string;
   reference: string;
   eventStatus: EVENT_STATUS;
   startAt: string;
